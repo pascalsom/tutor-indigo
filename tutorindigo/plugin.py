@@ -19,7 +19,7 @@ config: t.Dict[str, t.Dict[str, t.Any]] = {
     # Add here your new settings
     "defaults": {
         "VERSION": __version__,
-        "WELCOME_MESSAGE": "The place for all your online learning",
+        "WELCOME_MESSAGE": "Learn everything about Knowledge Graphs",
         "ENABLE_DARK_THEME": False,
         "PRIMARY_COLOR": "#15376D",  # Indigo
         # Footer links are dictionaries with a "title" and "url"
@@ -109,9 +109,14 @@ hooks.Filters.ENV_PATCHES.add_items(
         (
             "mfe-dockerfile-post-npm-install-learning",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
 RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-RUN npm install @edly-io/indigo-frontend-component-footer@^2.0.0
+
+RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
+RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
+RUN npm run build --prefix /openedx/app/frontend-component-footer
+
+RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
 """,
@@ -119,7 +124,7 @@ COPY indigo/env.config.jsx /openedx/app/
         (
             "mfe-dockerfile-post-npm-install-authn",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
 """,
         ),
         # Tutor-Indigo v2.1 targets the styling updates in discussions and learner-dashboard MFE
@@ -127,9 +132,14 @@ RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIG
         (
             "mfe-dockerfile-post-npm-install-discussions",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
 RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-RUN npm install @edly-io/indigo-frontend-component-footer@^2.0.0
+
+RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
+RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
+RUN npm run build --prefix /openedx/app/frontend-component-footer
+
+RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
 """,
@@ -137,8 +147,13 @@ COPY indigo/env.config.jsx /openedx/app/
         (
             "mfe-dockerfile-post-npm-install-learner-dashboard",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
-RUN npm install @edly-io/indigo-frontend-component-footer@^2.0.0
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
+
+RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
+RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
+RUN npm run build --prefix /openedx/app/frontend-component-footer
+
+RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
 """,
@@ -146,9 +161,14 @@ COPY indigo/env.config.jsx /openedx/app/
         (
             "mfe-dockerfile-post-npm-install-profile",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
 RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-RUN npm install @edly-io/indigo-frontend-component-footer@^2.0.0
+
+RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
+RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
+RUN npm run build --prefix /openedx/app/frontend-component-footer
+
+RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
 """,
@@ -156,9 +176,14 @@ COPY indigo/env.config.jsx /openedx/app/
         (
             "mfe-dockerfile-post-npm-install-account",
             """
-RUN npm install '@edx/brand@npm:@edly-io/indigo-brand-openedx@^2.0.0'{% if INDIGO_ENABLE_DARK_THEME %} --theme=dark{% endif %}
+RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
 RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-RUN npm install @edly-io/indigo-frontend-component-footer@^2.0.0
+
+RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
+RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
+RUN npm run build --prefix /openedx/app/frontend-component-footer
+
+RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
 """,

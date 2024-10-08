@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Footer from '@edly-io/indigo-frontend-component-footer';
+import Footer from './node_modules/@edly-io/indigo-frontend-component-footer';
 import { DIRECT_PLUGIN, PLUGIN_OPERATIONS } from '@openedx/frontend-plugin-framework';
 
 const themePluginSlot = {
