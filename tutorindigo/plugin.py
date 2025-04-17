@@ -110,13 +110,19 @@ hooks.Filters.ENV_PATCHES.add_items(
             "mfe-dockerfile-post-npm-install-learning",
             """
 RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
-RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
 
 RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
 RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
 RUN npm run build --prefix /openedx/app/frontend-component-footer
-
 RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
+
+RUN git clone -b neonto https://github.com/pascalsom/frontend-component-header.git
+RUN npm install --prefix /openedx/app/frontend-component-header /openedx/app/frontend-component-header
+RUN npm run build --prefix /openedx/app/frontend-component-header
+# delete node modules, and manually move to the node_modules folder, see https://neonto.atlassian.net/wiki/spaces/NM/pages/37879809/Custom+Theming
+RUN rm -rf /openedx/app/frontend-component-header/node_modules 
+RUN rm -rf /openedx/app/node_modules/@edx/frontend-component-header
+RUN mv /openedx/app/frontend-component-header /openedx/app/node_modules/@edx
 
 COPY indigo/env.config.jsx /openedx/app/
 """,
@@ -133,12 +139,10 @@ RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#r
             "mfe-dockerfile-post-npm-install-discussions",
             """
 RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
-RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
 
 RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
 RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
 RUN npm run build --prefix /openedx/app/frontend-component-footer
-
 RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
@@ -152,37 +156,6 @@ RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#r
 RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
 RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
 RUN npm run build --prefix /openedx/app/frontend-component-footer
-
-RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
-
-COPY indigo/env.config.jsx /openedx/app/
-""",
-        ),
-        (
-            "mfe-dockerfile-post-npm-install-profile",
-            """
-RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
-RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-
-RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
-RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
-RUN npm run build --prefix /openedx/app/frontend-component-footer
-
-RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
-
-COPY indigo/env.config.jsx /openedx/app/
-""",
-        ),
-        (
-            "mfe-dockerfile-post-npm-install-account",
-            """
-RUN npm install '@edx/brand@git+https://github.com/pascalsom/brand-openedx.git#redwood/indigo'
-RUN npm install '@edx/frontend-component-header@npm:@edly-io/indigo-frontend-component-header@~3.0.0'
-
-RUN git clone -b redwood/indigo https://github.com/pascalsom/frontend-component-footer.git
-RUN npm install --prefix /openedx/app/frontend-component-footer /openedx/app/frontend-component-footer
-RUN npm run build --prefix /openedx/app/frontend-component-footer
-
 RUN npm install '@edly-io/indigo-frontend-component-footer@file:/openedx/app/frontend-component-footer'
 
 COPY indigo/env.config.jsx /openedx/app/
