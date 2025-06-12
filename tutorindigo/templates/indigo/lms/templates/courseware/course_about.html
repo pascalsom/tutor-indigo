@@ -107,6 +107,8 @@ from openedx.core.lib.courses import course_image_url
         ## so that they can register and become a real user that can enroll.
         % elif not is_shib_course and not can_enroll:
         <span class="register closed disabled"><i class="fa fa-lock" aria-hidden="true"></i> ${_("Enrollment is Closed")}</span>
+          ## added onclick to the link since the is a e.preventDefault handler on all register class links
+          <a class="register ml-2 py-3" href="https://license.neonto.de" onClick="window.location.href='https://license.neonto.de'">Activate your license now</a>
         %elif allow_anonymous:
           %if show_courseware_link:
             <a href="${course_target}">
