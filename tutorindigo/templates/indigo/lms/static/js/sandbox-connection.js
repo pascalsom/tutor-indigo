@@ -43,25 +43,49 @@ function emailToK8sUsername(email) {
   return username.substring(0, 63);
 }
 
-function getCookie(cname) {
-    let name = cname + "=";
-    let ca = document.cookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
+async function getUserEmail() {
+    try {
+        const response = await fetch(
+            'https://academy.neonto.de/api/user/metadata',
+            {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Accept': 'application/json',
+                    'use-jwt-cookie': 'true'
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to load user metadata: ${response.status}`
+            );
         }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
+
+        const data = await response.json();
+
+        if (!data.email) {
+            throw new Error('Response does not contain an email field.');
         }
+
+        return data.email;
+
+    } catch (error) {
+        console.error('Could not load user email:', error);
+        return null;
     }
-    return "";
 }
 
-function goToSandbox(workspaceName){
-    let edxUserInfoCookie = getCookie('edx-user-info');
-    let email = edxUserInfoCookie.split('email\\": \\"')[1].split('\\"')[0];
-    let subdomain = emailToK8sUsername(email);
+
+async function goToSandbox(workspaceName){
+    const email = await getUserEmail();
+
+    if (!email) {
+        return;
+    }
+
+    const subdomain = emailToK8sUsername(email);
     let sandboxUrl = `https://${subdomain}.mysandbox.neonto.de`;
 
     window.open(sandboxUrl + "/?workspace=/"+ workspaceName +".code-workspace", '_blank').focus();
